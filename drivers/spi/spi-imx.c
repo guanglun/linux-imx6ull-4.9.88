@@ -17,6 +17,7 @@
  * 51 Franklin Street, Fifth Floor
  * Boston, MA  02110-1301, USA.
  */
+/* #define DEBUG */
 
 #include <linux/clk.h>
 #include <linux/completion.h>
@@ -68,6 +69,7 @@ enum spi_imx_devtype {
 	IMX31_CSPI,
 	IMX35_CSPI,	/* CSPI on all i.mx except above */
 	IMX51_ECSPI,	/* ECSPI on i.mx51 and later */
+	IMX6UL_ECSPI,
 };
 
 struct spi_imx_data;
@@ -124,7 +126,8 @@ static inline int is_imx35_cspi(struct spi_imx_data *d)
 
 static inline int is_imx51_ecspi(struct spi_imx_data *d)
 {
-	return d->devtype_data->devtype == IMX51_ECSPI;
+	return d->devtype_data->devtype == IMX51_ECSPI ||
+	       d->devtype_data->devtype == IMX6UL_ECSPI;
 }
 
 static inline unsigned spi_imx_get_fifosize(struct spi_imx_data *d)
@@ -326,10 +329,17 @@ static void mx51_ecspi_intctrl(struct spi_imx_data *spi_imx, int enable)
 
 static void mx51_ecspi_trigger(struct spi_imx_data *spi_imx)
 {
-	u32 reg;
-
-	reg = readl(spi_imx->base + MX51_ECSPI_CTRL);
-	reg |= MX51_ECSPI_CTRL_XCH;
+	u32 reg = readl(spi_imx->base + MX51_ECSPI_CTRL);
+	/*
+	 * To workaround ERR008517, SDMA script need use XCH instead of SMC
+	 * just like PIO mode and it fix on i.mx6ul
+	 */
+	if (!spi_imx->usedma)
+		reg |= MX51_ECSPI_CTRL_XCH;
+	else if (spi_imx->devtype_data->devtype == IMX6UL_ECSPI)
+		reg |= MX51_ECSPI_CTRL_SMC;
+	else
+		reg &= ~MX51_ECSPI_CTRL_SMC;
 	writel(reg, spi_imx->base + MX51_ECSPI_CTRL);
 }
 
@@ -340,6 +350,7 @@ static int mx51_ecspi_config(struct spi_device *spi,
 	u32 ctrl = MX51_ECSPI_CTRL_ENABLE;
 	u32 clk = config->speed_hz, delay, reg;
 	u32 cfg = readl(spi_imx->base + MX51_ECSPI_CONFIG);
+	int tx_wml = 0;
 
 	/*
 	 * The hardware seems to have a race condition when changing modes. The
@@ -414,9 +425,11 @@ static int mx51_ecspi_config(struct spi_device *spi,
 	 * Configure the DMA register: setup the watermark
 	 * and enable DMA request.
 	 */
+	if (spi_imx->devtype_data->devtype == IMX6UL_ECSPI)
+		tx_wml = spi_imx->wml / 2;
 
 	writel(MX51_ECSPI_DMA_RX_WML(spi_imx->wml) |
-		MX51_ECSPI_DMA_TX_WML(spi_imx->wml) |
+		MX51_ECSPI_DMA_TX_WML(tx_wml) |
 		MX51_ECSPI_DMA_RXT_WML(spi_imx->wml) |
 		MX51_ECSPI_DMA_TEDEN | MX51_ECSPI_DMA_RXDEN |
 		MX51_ECSPI_DMA_RXTDEN, spi_imx->base + MX51_ECSPI_DMA);
@@ -723,7 +736,16 @@ static struct spi_imx_devtype_data imx51_ecspi_devtype_data = {
 	.devtype = IMX51_ECSPI,
 };
 
-static const struct platform_device_id spi_imx_devtype[] = {
+static struct spi_imx_devtype_data imx6ul_ecspi_devtype_data = {
+	.intctrl = mx51_ecspi_intctrl,
+	.config = mx51_ecspi_config,
+	.trigger = mx51_ecspi_trigger,
+	.rx_available = mx51_ecspi_rx_available,
+	.reset = mx51_ecspi_reset,
+	.devtype = IMX6UL_ECSPI,
+};
+
+static struct platform_device_id spi_imx_devtype[] = {
 	{
 		.name = "imx1-cspi",
 		.driver_data = (kernel_ulong_t) &imx1_cspi_devtype_data,
@@ -743,6 +765,9 @@ static const struct platform_device_id spi_imx_devtype[] = {
 		.name = "imx51-ecspi",
 		.driver_data = (kernel_ulong_t) &imx51_ecspi_devtype_data,
 	}, {
+		.name = "imx6ul-ecspi",
+		.driver_data = (kernel_ulong_t) &imx6ul_ecspi_devtype_data,
+	}, {
 		/* sentinel */
 	}
 };
@@ -754,6 +779,7 @@ static const struct of_device_id spi_imx_dt_ids[] = {
 	{ .compatible = "fsl,imx31-cspi", .data = &imx31_cspi_devtype_data, },
 	{ .compatible = "fsl,imx35-cspi", .data = &imx35_cspi_devtype_data, },
 	{ .compatible = "fsl,imx51-ecspi", .data = &imx51_ecspi_devtype_data, },
+	{ .compatible = "fsl,imx6ul-ecspi", .data = &imx6ul_ecspi_devtype_data, },
 	{ /* sentinel */ }
 };
 MODULE_DEVICE_TABLE(of, spi_imx_dt_ids);
@@ -839,7 +865,7 @@ static int spi_imx_dma_configure(struct spi_master *master,
 	tx.direction = DMA_MEM_TO_DEV;
 	tx.dst_addr = spi_imx->base_phys + MXC_CSPITXDATA;
 	tx.dst_addr_width = buswidth;
-	tx.dst_maxburst = spi_imx->wml;
+	tx.dst_maxburst = spi_imx->wml / 2;
 	ret = dmaengine_slave_config(master->dma_tx, &tx);
 	if (ret) {
 		dev_err(spi_imx->dev, "TX dma configuration failed with %d\n", ret);
@@ -924,10 +950,6 @@ static int spi_imx_sdma_init(struct device *dev, struct spi_imx_data *spi_imx,
 			     struct spi_master *master)
 {
 	int ret;
-
-	/* use pio mode for i.mx6dl chip TKT238285 */
-	if (of_machine_is_compatible("fsl,imx6dl"))
-		return 0;
 
 	spi_imx->wml = spi_imx_get_fifosize(spi_imx) / 2;
 
@@ -1033,6 +1055,8 @@ static int spi_imx_dma_transfer(struct spi_imx_data *spi_imx,
 
 	transfer_timeout = spi_imx_calculate_timeout(spi_imx, transfer->len);
 
+	spi_imx->devtype_data->trigger(spi_imx);
+
 	/* Wait SDMA to finish the data transfer.*/
 	timeout = wait_for_completion_timeout(&spi_imx->dma_tx_completion,
 						transfer_timeout);
@@ -1099,8 +1123,8 @@ static int spi_imx_transfer(struct spi_device *spi,
 
 static int spi_imx_setup(struct spi_device *spi)
 {
-	dev_dbg(&spi->dev, "%s: mode %d, %u bpw, %d hz\n", __func__,
-		 spi->mode, spi->bits_per_word, spi->max_speed_hz);
+	dev_dbg(&spi->dev, "%s: mode %d, %u bpw, %d hz, spi->cs_gpio %d\n", __func__,
+		 spi->mode, spi->bits_per_word, spi->max_speed_hz, spi->cs_gpio);
 
 	if (gpio_is_valid(spi->cs_gpio))
 		gpio_direction_output(spi->cs_gpio,
@@ -1121,13 +1145,13 @@ spi_imx_prepare_message(struct spi_master *master, struct spi_message *msg)
 	struct spi_imx_data *spi_imx = spi_master_get_devdata(master);
 	int ret;
 
-	ret = clk_enable(spi_imx->clk_per);
+	ret = clk_prepare_enable(spi_imx->clk_per);
 	if (ret)
 		return ret;
 
-	ret = clk_enable(spi_imx->clk_ipg);
+	ret = clk_prepare_enable(spi_imx->clk_ipg);
 	if (ret) {
-		clk_disable(spi_imx->clk_per);
+		clk_disable_unprepare(spi_imx->clk_per);
 		return ret;
 	}
 
@@ -1139,8 +1163,8 @@ spi_imx_unprepare_message(struct spi_master *master, struct spi_message *msg)
 {
 	struct spi_imx_data *spi_imx = spi_master_get_devdata(master);
 
-	clk_disable(spi_imx->clk_ipg);
-	clk_disable(spi_imx->clk_per);
+	clk_disable_unprepare(spi_imx->clk_ipg);
+	clk_disable_unprepare(spi_imx->clk_per);
 	return 0;
 }
 
@@ -1155,6 +1179,7 @@ static int spi_imx_probe(struct platform_device *pdev)
 	struct spi_imx_data *spi_imx;
 	struct resource *res;
 	int i, ret, irq;
+	u32 num_chipselects, cs_gpio;
 
 	if (!np && !mxc_platform_info) {
 		dev_err(&pdev->dev, "can't get the platform data\n");
@@ -1177,6 +1202,7 @@ static int spi_imx_probe(struct platform_device *pdev)
 	spi_imx->devtype_data = of_id ? of_id->data :
 		(struct spi_imx_devtype_data *)pdev->id_entry->driver_data;
 
+	/* Get number of chip selects, either platform data or OF */
 	if (mxc_platform_info) {
 		master->num_chipselect = mxc_platform_info->num_chipselect;
 		master->cs_gpios = devm_kzalloc(&master->dev,
@@ -1186,7 +1212,19 @@ static int spi_imx_probe(struct platform_device *pdev)
 
 		for (i = 0; i < master->num_chipselect; i++)
 			master->cs_gpios[i] = mxc_platform_info->chipselect[i];
- 	}
+	} else {
+		if (!of_property_read_u32(np, "fsl,spi-num-chipselects", &num_chipselects))
+			master->num_chipselect = num_chipselects;
+
+		master->cs_gpios = devm_kzalloc(&master->dev,
+			sizeof(int) * master->num_chipselect, GFP_KERNEL);
+		if (!master->cs_gpios)
+			return -ENOMEM;
+
+		cs_gpio = of_get_named_gpio(np, "cs-gpio", 0);
+		for (i = 0; i < master->num_chipselect; i++)
+			master->cs_gpios[i] = cs_gpio;
+	}
 
 	spi_imx->bitbang.chipselect = spi_imx_chipselect;
 	spi_imx->bitbang.setup_transfer = spi_imx_setupxfer;
@@ -1289,8 +1327,8 @@ static int spi_imx_probe(struct platform_device *pdev)
 
 	dev_info(&pdev->dev, "probed\n");
 
-	clk_disable(spi_imx->clk_ipg);
-	clk_disable(spi_imx->clk_per);
+	clk_disable_unprepare(spi_imx->clk_ipg);
+	clk_disable_unprepare(spi_imx->clk_per);
 	return ret;
 
 out_clk_put:
@@ -1330,11 +1368,31 @@ static int spi_imx_remove(struct platform_device *pdev)
 	return 0;
 }
 
+#ifdef CONFIG_PM_SLEEP
+static int spi_imx_suspend(struct device *dev)
+{
+	pinctrl_pm_select_sleep_state(dev);
+	return 0;
+}
+
+static int spi_imx_resume(struct device *dev)
+{
+	pinctrl_pm_select_default_state(dev);
+	return 0;
+}
+
+static SIMPLE_DEV_PM_OPS(imx_spi_pm, spi_imx_suspend, spi_imx_resume);
+#define IMX_SPI_PM       (&imx_spi_pm)
+#else
+#define IMX_SPI_PM       NULL
+#endif
+
 static struct platform_driver spi_imx_driver = {
 	.driver = {
 		   .name = DRIVER_NAME,
 		   .of_match_table = spi_imx_dt_ids,
-		   },
+		   .pm = IMX_SPI_PM,
+	},
 	.id_table = spi_imx_devtype,
 	.probe = spi_imx_probe,
 	.remove = spi_imx_remove,

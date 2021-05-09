@@ -1200,8 +1200,8 @@ static u32 cfg80211_calculate_bitrate_vht(struct rate_info *rate)
 	u32 bitrate;
 	int idx;
 
-	if (WARN_ON_ONCE(rate->mcs > 9))
-		return 0;
+	if (rate->mcs > 9)
+		goto warn;
 
 	switch (rate->bw) {
 	case RATE_INFO_BW_160:
@@ -1216,8 +1216,7 @@ static u32 cfg80211_calculate_bitrate_vht(struct rate_info *rate)
 	case RATE_INFO_BW_5:
 	case RATE_INFO_BW_10:
 	default:
-		WARN_ON(1);
-		/* fall through */
+		goto warn;
 	case RATE_INFO_BW_20:
 		idx = 0;
 	}
@@ -1230,6 +1229,10 @@ static u32 cfg80211_calculate_bitrate_vht(struct rate_info *rate)
 
 	/* do NOT round down here */
 	return (bitrate + 50000) / 100000;
+ warn:
+	WARN_ONCE(1, "invalid rate bw=%d, mcs=%d, nss=%d\n",
+		  rate->bw, rate->mcs, rate->nss);
+	return 0;
 }
 
 u32 cfg80211_calculate_bitrate(struct rate_info *rate)
@@ -1793,3 +1796,54 @@ EXPORT_SYMBOL(rfc1042_header);
 const unsigned char bridge_tunnel_header[] __aligned(2) =
 	{ 0xaa, 0xaa, 0x03, 0x00, 0x00, 0xf8 };
 EXPORT_SYMBOL(bridge_tunnel_header);
+
+bool cfg80211_is_gratuitous_arp_unsolicited_na(struct sk_buff *skb)
+{
+    const struct ethhdr *eth = (void *)skb->data;
+    const struct {
+        struct arphdr hdr;
+        u8 ar_sha[ETH_ALEN];
+        u8 ar_sip[4];
+        u8 ar_tha[ETH_ALEN];
+        u8 ar_tip[4];
+    } __packed *arp;
+    const struct ipv6hdr *ipv6;
+    const struct icmp6hdr *icmpv6;
+
+    switch (eth->h_proto) {
+    case cpu_to_be16(ETH_P_ARP):
+        /* can't say - but will probably be dropped later anyway */
+        if (!pskb_may_pull(skb, sizeof(*eth) + sizeof(*arp)))
+            return false;
+
+        arp = (void *)(eth + 1);
+
+        if ((arp->hdr.ar_op == cpu_to_be16(ARPOP_REPLY) ||
+             arp->hdr.ar_op == cpu_to_be16(ARPOP_REQUEST)) &&
+            !memcmp(arp->ar_sip, arp->ar_tip, sizeof(arp->ar_sip)))
+            return true;
+        break;
+    case cpu_to_be16(ETH_P_IPV6):
+        /* can't say - but will probably be dropped later anyway */
+        if (!pskb_may_pull(skb, sizeof(*eth) + sizeof(*ipv6) +
+                    sizeof(*icmpv6)))
+            return false;
+
+        ipv6 = (void *)(eth + 1);
+        icmpv6 = (void *)(ipv6 + 1);
+
+        if (icmpv6->icmp6_type == NDISC_NEIGHBOUR_ADVERTISEMENT &&
+            !memcmp(&ipv6->saddr, &ipv6->daddr, sizeof(ipv6->saddr)))
+            return true;
+        break;
+    default:
+        /*
+         * no need to support other protocols, proxy service isn't
+         * specified for any others
+         */
+        break;
+    }
+
+    return false;
+}
+EXPORT_SYMBOL(cfg80211_is_gratuitous_arp_unsolicited_na);

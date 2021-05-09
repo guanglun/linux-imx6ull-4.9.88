@@ -20,6 +20,8 @@
 #include <linux/mmc/host.h>
 
 #include "core.h"
+#include "card.h"
+#include "host.h"
 #include "mmc_ops.h"
 
 #ifdef CONFIG_FAIL_MMC_REQUEST
@@ -55,6 +57,9 @@ static int mmc_ios_show(struct seq_file *s, void *data)
 	struct mmc_host	*host = s->private;
 	struct mmc_ios	*ios = &host->ios;
 	const char *str;
+
+	if (host->card)
+		mmc_get_card(host->card);
 
 	seq_printf(s, "clock:\t\t%u Hz\n", ios->clock);
 	if (host->actual_clock)
@@ -192,6 +197,9 @@ static int mmc_ios_show(struct seq_file *s, void *data)
 	}
 	seq_printf(s, "driver type:\t%u (%s)\n", ios->drv_type, str);
 
+	if (host->card)
+		mmc_put_card(host->card);
+
 	return 0;
 }
 
@@ -211,7 +219,11 @@ static int mmc_clock_opt_get(void *data, u64 *val)
 {
 	struct mmc_host *host = data;
 
+	if (host->card)
+		mmc_get_card(host->card);
 	*val = host->ios.clock;
+	if (host->card)
+		mmc_put_card(host->card);
 
 	return 0;
 }
@@ -321,7 +333,11 @@ static int mmc_ext_csd_open(struct inode *inode, struct file *filp)
 	for (i = 0; i < 512; i++)
 		n += sprintf(buf + n, "%02x", ext_csd[i]);
 	n += sprintf(buf + n, "\n");
-	BUG_ON(n != EXT_CSD_STR_LEN);
+
+	if (n != EXT_CSD_STR_LEN) {
+		err = -EINVAL;
+		goto out_free;
+	}
 
 	filp->private_data = buf;
 	kfree(ext_csd);

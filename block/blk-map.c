@@ -16,6 +16,8 @@
 int blk_rq_append_bio(struct request *rq, struct bio *bio)
 {
 	if (!rq->bio) {
+		rq->cmd_flags &= REQ_OP_MASK;
+		rq->cmd_flags |= (bio->bi_opf & REQ_OP_MASK);
 		blk_rq_bio_prep(rq->q, rq, bio);
 	} else {
 		if (!ll_back_merge_fn(rq->q, rq, bio))
@@ -138,7 +140,7 @@ int blk_rq_map_user_iov(struct request_queue *q, struct request *rq,
 	} while (iov_iter_count(&i));
 
 	if (!bio_flagged(bio, BIO_USER_MAPPED))
-		rq->cmd_flags |= REQ_COPY_USER;
+		rq->rq_flags |= RQF_COPY_USER;
 	return 0;
 
 unmap_rq:
@@ -196,6 +198,12 @@ int blk_rq_unmap_user(struct bio *bio)
 }
 EXPORT_SYMBOL(blk_rq_unmap_user);
 
+#ifdef CONFIG_AHCI_IMX
+extern void *sg_io_buffer_hack;
+#else
+#define sg_io_buffer_hack NULL
+#endif
+
 /**
  * blk_rq_map_kern - map kernel data to a request, for REQ_TYPE_BLOCK_PC usage
  * @q:		request queue where request should be inserted
@@ -223,7 +231,14 @@ int blk_rq_map_kern(struct request_queue *q, struct request *rq, void *kbuf,
 	if (!len || !kbuf)
 		return -EINVAL;
 
-	do_copy = !blk_rq_aligned(q, addr, len) || object_is_on_stack(kbuf);
+#ifdef CONFIG_AHCI_IMX
+	if (kbuf == sg_io_buffer_hack)
+		do_copy = 0;
+	else
+#endif
+		do_copy = !blk_rq_aligned(q, addr, len)
+			|| object_is_on_stack(kbuf);
+
 	if (do_copy)
 		bio = bio_copy_kern(q, kbuf, len, gfp_mask, reading);
 	else
@@ -236,7 +251,7 @@ int blk_rq_map_kern(struct request_queue *q, struct request *rq, void *kbuf,
 		bio_set_op_attrs(bio, REQ_OP_WRITE, 0);
 
 	if (do_copy)
-		rq->cmd_flags |= REQ_COPY_USER;
+		rq->rq_flags |= RQF_COPY_USER;
 
 	ret = blk_rq_append_bio(rq, bio);
 	if (unlikely(ret)) {

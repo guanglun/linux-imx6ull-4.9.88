@@ -799,6 +799,7 @@ void phy_attached_info(struct phy_device *phydev);
 int genphy_config_init(struct phy_device *phydev);
 int genphy_setup_forced(struct phy_device *phydev);
 int genphy_restart_aneg(struct phy_device *phydev);
+int genphy_config_aneg_check(struct phy_device *phydev);
 int genphy_config_aneg(struct phy_device *phydev);
 int genphy_aneg_done(struct phy_device *phydev);
 int genphy_update_link(struct phy_device *phydev);
@@ -833,6 +834,7 @@ void phy_print_status(struct phy_device *phydev);
 void phy_device_free(struct phy_device *phydev);
 int phy_set_max_speed(struct phy_device *phydev, u32 max_speed);
 
+int phy_scan_fixups(struct phy_device *phydev);
 int phy_register_fixup(const char *bus_id, u32 phy_uid, u32 phy_uid_mask,
 		       int (*run)(struct phy_device *));
 int phy_register_fixup_for_id(const char *bus_id,
