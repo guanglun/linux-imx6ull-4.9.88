@@ -1,0 +1,127 @@
+
+arch/arm/kernel/hyp-stub.o:     file format elf32-littlearm
+
+Contents of section .text:
+ 0000 00400fe1 1f4004e2 d0508fe2 006095e5  .@...@...P...`..
+ 0010 064085e7 00400fe1 1f4004e2 bc608fe2  .@...@...@...`..
+ 0020 007096e5 075096e7 050054e1 02518513  .p...P....T..Q..
+ 0030 07508617 1eff2f11 1a0054e3 1eff2f11  .P..../...T.../.
+ 0040 b8708fe2 107f8cee 0070a0e3 117f81ee  .p.......p......
+ 0050 517f81ee 717f81ee 107f81ee 317f91ee  Q...q.......1...
+ 0060 1f7007e2 317f81ee 107f11ee 207087e3  .p..1....... p..
+ 0070 067dc7e3 0677c7e3 107f01ee 107f10ee  .}...w..........
+ 0080 107f80ee b07f10ee b07f80ee 317f10ee  ............1...
+ 0090 2778a0e1 0f7007e2 010057e3 0700001a  'x...p....W.....
+ 00a0 117f9eee 037087e3 117f8eee 0070a0e3  .....p.......p..
+ 00b0 4e7f47ec 337f1eee 0170c7e3 337f0eee  N.G.3....p..3...
+ 00c0 1eff2fe1 010070e3 100f9c0e 100f8c1e  ../...p.........
+ 00d0 6e0060e1 0000e0e3 700040e1 1eff2fe1  n.`.....p.@.../.
+ 00e0 00000000 00f020e3 00f020e3 00f020e3  ...... ... ... .
+ 00f0 00f020e3 00f020e3 00f020e3 00f020e3  .. ... ... ... .
+ 0100 feffffea feffffea feffffea feffffea  ................
+ 0110 feffffea eaffffea feffffea feffffea  ................
+Contents of section .data:
+ 0000 00000000                             ....            
+Contents of section .ARM.attributes:
+ 0000 411e0000 00616561 62690001 14000000  A....aeabi......
+ 0010 05372d41 00060a07 41080109 020a02    .7-A....A...... 
+
+Disassembly of section .text:
+
+00000000 <__hyp_stub_install>:
+   0:	e10f4000 	mrs	r4, CPSR
+   4:	e204401f 	and	r4, r4, #31
+   8:	e28f50d0 	add	r5, pc, #208	; 0xd0
+   c:	e5956000 	ldr	r6, [r5]
+  10:	e7854006 	str	r4, [r5, r6]
+
+00000014 <__hyp_stub_install_secondary>:
+  14:	e10f4000 	mrs	r4, CPSR
+  18:	e204401f 	and	r4, r4, #31
+  1c:	e28f60bc 	add	r6, pc, #188	; 0xbc
+  20:	e5967000 	ldr	r7, [r6]
+  24:	e7965007 	ldr	r5, [r6, r7]
+  28:	e1540005 	cmp	r4, r5
+  2c:	13855102 	orrne	r5, r5, #-2147483648	; 0x80000000
+  30:	17865007 	strne	r5, [r6, r7]
+  34:	112fff1e 	bxne	lr
+  38:	e354001a 	cmp	r4, #26
+  3c:	112fff1e 	bxne	lr
+  40:	e28f70b8 	add	r7, pc, #184	; 0xb8
+  44:	ee8c7f10 	mcr	15, 4, r7, cr12, cr0, {0}
+  48:	e3a07000 	mov	r7, #0
+  4c:	ee817f11 	mcr	15, 4, r7, cr1, cr1, {0}
+  50:	ee817f51 	mcr	15, 4, r7, cr1, cr1, {2}
+  54:	ee817f71 	mcr	15, 4, r7, cr1, cr1, {3}
+  58:	ee817f10 	mcr	15, 4, r7, cr1, cr0, {0}
+  5c:	ee917f31 	mrc	15, 4, r7, cr1, cr1, {1}
+  60:	e207701f 	and	r7, r7, #31
+  64:	ee817f31 	mcr	15, 4, r7, cr1, cr1, {1}
+  68:	ee117f10 	mrc	15, 0, r7, cr1, cr0, {0}
+  6c:	e3877020 	orr	r7, r7, #32
+  70:	e3c77d06 	bic	r7, r7, #384	; 0x180
+  74:	e3c77706 	bic	r7, r7, #1572864	; 0x180000
+  78:	ee017f10 	mcr	15, 0, r7, cr1, cr0, {0}
+  7c:	ee107f10 	mrc	15, 0, r7, cr0, cr0, {0}
+  80:	ee807f10 	mcr	15, 4, r7, cr0, cr0, {0}
+  84:	ee107fb0 	mrc	15, 0, r7, cr0, cr0, {5}
+  88:	ee807fb0 	mcr	15, 4, r7, cr0, cr0, {5}
+  8c:	ee107f31 	mrc	15, 0, r7, cr0, cr1, {1}
+  90:	e1a07827 	lsr	r7, r7, #16
+  94:	e207700f 	and	r7, r7, #15
+  98:	e3570001 	cmp	r7, #1
+  9c:	1a000007 	bne	c0 <__hyp_stub_install_secondary+0xac>
+  a0:	ee9e7f11 	mrc	15, 4, r7, cr14, cr1, {0}
+  a4:	e3877003 	orr	r7, r7, #3
+  a8:	ee8e7f11 	mcr	15, 4, r7, cr14, cr1, {0}
+  ac:	e3a07000 	mov	r7, #0
+  b0:	ec477f4e 	mcrr	15, 4, r7, r7, cr14
+  b4:	ee1e7f33 	mrc	15, 0, r7, cr14, cr3, {1}
+  b8:	e3c77001 	bic	r7, r7, #1
+  bc:	ee0e7f33 	mcr	15, 0, r7, cr14, cr3, {1}
+  c0:	e12fff1e 	bx	lr
+
+000000c4 <__hyp_stub_do_trap>:
+  c4:	e3700001 	cmn	r0, #1
+  c8:	0e9c0f10 	mrceq	15, 4, r0, cr12, cr0, {0}
+  cc:	1e8c0f10 	mcrne	15, 4, r0, cr12, cr0, {0}
+  d0:	e160006e 	.word	0xe160006e
+
+000000d4 <__hyp_get_vectors>:
+  d4:	e3e00000 	mvn	r0, #0
+
+000000d8 <__hyp_set_vectors>:
+  d8:	e1400070 	.word	0xe1400070
+  dc:	e12fff1e 	bx	lr
+  e0:	00000000 	.word	0x00000000
+  e4:	e320f000 	nop	{0}
+  e8:	e320f000 	nop	{0}
+  ec:	e320f000 	nop	{0}
+  f0:	e320f000 	nop	{0}
+  f4:	e320f000 	nop	{0}
+  f8:	e320f000 	nop	{0}
+  fc:	e320f000 	nop	{0}
+
+00000100 <__hyp_stub_vectors>:
+ 100:	eafffffe 	b	100 <__hyp_stub_vectors>
+
+00000104 <__hyp_stub_und>:
+ 104:	eafffffe 	b	104 <__hyp_stub_und>
+
+00000108 <__hyp_stub_svc>:
+ 108:	eafffffe 	b	108 <__hyp_stub_svc>
+
+0000010c <__hyp_stub_pabort>:
+ 10c:	eafffffe 	b	10c <__hyp_stub_pabort>
+
+00000110 <__hyp_stub_dabort>:
+ 110:	eafffffe 	b	110 <__hyp_stub_dabort>
+
+00000114 <__hyp_stub_trap>:
+ 114:	eaffffea 	b	c4 <__hyp_stub_do_trap>
+
+00000118 <__hyp_stub_irq>:
+ 118:	eafffffe 	b	118 <__hyp_stub_irq>
+
+0000011c <__hyp_stub_fiq>:
+ 11c:	eafffffe 	b	11c <__hyp_stub_fiq>
