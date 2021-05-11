@@ -1,0 +1,427 @@
+
+/home/guanglun/imx6ull/linux-imx6ull-4.9.88/arch/arm/kernel/head.o:     file format elf32-littlearm
+
+Contents of section .text:
+ 0000 feffffeb 00900fe1 1a9029e2 1f0019e3  ..........).....
+ 0010 1f90c9e3 d39089e3 0400001a 019c89e3  ................
+ 0020 0ce08fe2 09f06fe1 0ef32ee1 6e0060e1  ......o.....n.`.
+ 0030 09f021e1 109f10ee 3e0000eb 05a0b0e1  ..!.....>.......
+ 0040 7000a003 4d00000a 30408fe2 a01094e8  p...M...0@......
+ 0050 05e044e0 0e3087e0 d040c3e1 088093e5  ..D..0...@......
+ 0060 24e08fe2 0cd0a0e1 10c09ae5 0ac08ce0  $...............
+ 0070 0cf0a0e1 0cd097e5 00b0a0e3 feffffea  ................
+ 0080 80000000 00000000 00000000 0200c0e3  ................
+ 0090 5150a0e3 105f03ee 104f02ee feffffea  QP..._...O......
+ 00a0 050054e1 1eff2f21 4100b4e8 036080e7  ..T.../!A....`..
+ 00b0 faffffea 70402de9 0040a0e1 015080e0  ....p@-..@...P..
+ 00c0 0030a0e3 f5ffffeb 7080bde8 48008fe2  .0......p...H...
+ 00d0 006090e5 036086e0 040096e5 006096e5  .`...`.......`..
+ 00e0 266ca0e1 010070e3 0105a003 060000ea  &l....p.........
+ 00f0 03c097e7 ffc0cce3 0f0c1ce3 06c08c11  ................
+ 0100 01c5cc03 00c08c01 03c087e7 050054e1  ..............T.
+ 0110 04709434 f5ffff3a 1eff2fe1 00000000  .p.4...:../.....
+ 0120 f0402de9 0030a0e3 0040a0e1 015080e0  .@-..0...@...P..
+ 0130 e5ffffeb f080bde8 30308fe2 700093e8  ........00..p...
+ 0140 043043e0 035085e0 036086e0 180095e8  .0C..P...`......
+ 0150 094004e0 040033e1 0300000a 345085e2  .@....3.....4P..
+ 0160 060055e1 f8ffff3a 0050a0e3 1eff2fe1  ..U....:.P..../.
+ 0170 70010000 00000000 00000000 ffffffea  p...............
+ 0180 0000a0e1 fdffffea 00f020e3 00f020e3  .......... ... .
+ 0190 00f020e3 00f020e3 00f020e3 00f020e3  .. ... ... ... .
+Contents of section .data:
+ 0000 01000000 00000000 00000000 00000000  ................
+Contents of section .head.text:
+ 0000 feffffeb 00900fe1 1a9029e2 1f0019e3  ..........).....
+ 0010 1f90c9e3 d39089e3 0400001a 019c89e3  ................
+ 0020 0ce08fe2 09f06fe1 0ef32ee1 6e0060e1  ......o.....n.`.
+ 0030 09f021e1 109f10ee feffffeb 05a0b0e1  ..!.............
+ 0040 feffff0a 38308fe2 100193e8 044043e0  ....80.......@C.
+ 0050 048088e0 720000eb 390000eb 5b0000eb  ....r...9...[...
+ 0060 090000eb 14d09fe5 0ce08fe2 0480a0e1  ................
+ 0070 10c09ae5 0ac08ce0 0cf0a0e1 feffffea  ................
+ 0080 00000000 84000000 00000080 024988e2  .............I..
+ 0090 014944e2 0400a0e1 0030a0e3 016980e2  .ID......0...i..
+ 00a0 043080e4 043080e4 043080e4 043080e4  .0...0...0...0..
+ 00b0 060030e1 f9ffff1a 08709ae5 74008fe2  ..0......p..t...
+ 00c0 680090e8 030040e0 005085e0 006086e0  h.....@..P...`..
+ 00d0 255aa0e1 266aa0e1 053a87e1 053184e7  %Z..&j...:...1..
+ 00e0 060055e1 01508532 faffff3a 020a84e2  ..U..P.2...:....
+ 00f0 3c609fe5 073088e1 266984e0 043080e4  <`...0..&i...0..
+ 0100 013683e2 060050e1 fbffff9a 220aa0e1  .6....P....."...
+ 0110 000ab0e1 08304010 02318312 23398410  .....0@..1..#9..
+ 0120 00608711 04608314 01668612 00608315  .`...`...f...`..
+ 0130 1eff2fe1 ffffffff 38010000 00000000  ../.....8.......
+ 0140 20000000 0f3809e2 0f0833e3 1600001a   ....8....3.....
+ 0150 ff38c9e3 0f30c3e3 4144a0e3 0b4a84e3  .8...0..AD...J..
+ 0160 204084e3 040033e1 1eff2f01 b00f10ee   @....3.../.....
+ 0170 030100e2 020130e3 0b00001a 4144a0e3  ......0.....AD..
+ 0180 034984e3 904084e3 040033e1 1eff2f11  .I...@....3.../.
+ 0190 100f9fee 000030e3 0300000a 040090e5  ......0.........
+ 01a0 030000e2 000030e3 1eff2f11 10008fe2  ......0.../.....
+ 01b0 380090e8 033040e0 034084e0 035085e0  8....0@..@...P..
+ 01c0 feffffea c4010000 00000000 00000000  ................
+ 01d0 38008fe2 f80090e8 00c0e0e3 033050e0  8............0P.
+ 01e0 034084e0 035085e0 036086e0 037087e0  .@...P...`...p..
+ 01f0 2806a0e1 000086e5 04c08735 236ca0e1  (..........5#l..
+ 0200 060c33e1 feffff1a 003087e5 feffffea  ..3......0......
+ 0210 10020000 00000000 00000000 00000000  ................
+ 0220 00000000 030012e3 0b00001a 005092e5  .............P..
+ 0230 2c609fe5 060055e1 0600000a 050055e3  ,`....U.......U.
+ 0240 02005513 0400001a 045092e5 14609fe5  ..U......P...`..
+ 0250 060055e1 0000001a 1eff2fe1 0020a0e3  ..U......./.. ..
+ 0260 1eff2fe1 d00dfeed 01004154           ../.......AT    
+Contents of section .idmap.text:
+ 0000 0000a0e1 6ff07ff5 100f01ee 103f10ee  ....o........?..
+ 0010 6ff07ff5 0330a0e1 0d30a0e1 03f0a0e1  o....0...0......
+Contents of section .alt.smp.init:
+ 0000 00000000 00000000                    ........        
+Contents of section .init.text:
+ 0000 40308fe2 f000b3e8 050054e1 06005511  @0........T...U.
+ 0010 04b09414 04b08514 fbffff1a 00b0a0e3  ................
+ 0020 070056e1 04b08634 fcffff3a f02093e8  ..V....4...:. ..
+ 0030 009084e5 001085e5 002086e5 000057e3  ......... ....W.
+ 0040 00008715 feffffea 00000000 00000000  ................
+ 0050 00000000 00000000 00000000 00000000  ................
+ 0060 00000000 00000000 f81f0000 70422de9  ............pB-.
+ 0070 0090a0e1 feffffeb 0500a0e1 7082bde8  ............p...
+Contents of section .ARM.attributes:
+ 0000 411e0000 00616561 62690001 14000000  A....aeabi......
+ 0010 05372d41 00060a07 41080109 020a02    .7-A....A...... 
+
+Disassembly of section .text:
+
+00000000 <secondary_startup>:
+   0:	ebfffffe 	bl	0 <__hyp_stub_install_secondary>
+   4:	e10f9000 	mrs	r9, CPSR
+   8:	e229901a 	eor	r9, r9, #26
+   c:	e319001f 	tst	r9, #31
+  10:	e3c9901f 	bic	r9, r9, #31
+  14:	e38990d3 	orr	r9, r9, #211	; 0xd3
+  18:	1a000004 	bne	30 <secondary_startup+0x30>
+  1c:	e3899c01 	orr	r9, r9, #256	; 0x100
+  20:	e28fe00c 	add	lr, pc, #12
+  24:	e16ff009 	msr	SPSR_fsxc, r9
+  28:	e12ef30e 	.word	0xe12ef30e
+  2c:	e160006e 	.word	0xe160006e
+  30:	e121f009 	msr	CPSR_c, r9
+  34:	ee109f10 	mrc	15, 0, r9, cr0, cr0, {0}
+  38:	eb00003e 	bl	138 <__lookup_processor_type>
+  3c:	e1b0a005 	movs	sl, r5
+  40:	03a00070 	moveq	r0, #112	; 0x70
+  44:	0a00004d 	beq	180 <__error>
+  48:	e28f4030 	add	r4, pc, #48	; 0x30
+  4c:	e89410a0 	ldm	r4, {r5, r7, ip}
+  50:	e044e005 	sub	lr, r4, r5
+  54:	e087300e 	add	r3, r7, lr
+  58:	e1c340d0 	ldrd	r4, [r3]
+  5c:	e5938008 	ldr	r8, [r3, #8]
+  60:	e28fe024 	add	lr, pc, #36	; 0x24
+  64:	e1a0d00c 	mov	sp, ip
+  68:	e59ac010 	ldr	ip, [sl, #16]
+  6c:	e08cc00a 	add	ip, ip, sl
+  70:	e1a0f00c 	mov	pc, ip
+
+00000074 <__secondary_switched>:
+  74:	e597d00c 	ldr	sp, [r7, #12]
+  78:	e3a0b000 	mov	fp, #0
+  7c:	eafffffe 	b	0 <secondary_start_kernel>
+
+00000080 <__secondary_data>:
+  80:	00000080 00000000 00000000              ............
+
+0000008c <__enable_mmu>:
+  8c:	e3c00002 	bic	r0, r0, #2
+  90:	e3a05051 	mov	r5, #81	; 0x51
+  94:	ee035f10 	mcr	15, 0, r5, cr3, cr0, {0}
+  98:	ee024f10 	mcr	15, 0, r4, cr2, cr0, {0}
+  9c:	eafffffe 	b	0 <secondary_startup>
+
+000000a0 <__do_fixup_smp_on_up>:
+  a0:	e1540005 	cmp	r4, r5
+  a4:	212fff1e 	bxcs	lr
+  a8:	e8b40041 	ldm	r4!, {r0, r6}
+  ac:	e7806003 	str	r6, [r0, r3]
+  b0:	eafffffa 	b	a0 <__do_fixup_smp_on_up>
+
+000000b4 <fixup_smp>:
+  b4:	e92d4070 	push	{r4, r5, r6, lr}
+  b8:	e1a04000 	mov	r4, r0
+  bc:	e0805001 	add	r5, r0, r1
+  c0:	e3a03000 	mov	r3, #0
+  c4:	ebfffff5 	bl	a0 <__do_fixup_smp_on_up>
+  c8:	e8bd8070 	pop	{r4, r5, r6, pc}
+
+000000cc <__fixup_a_pv_table>:
+  cc:	e28f0048 	add	r0, pc, #72	; 0x48
+  d0:	e5906000 	ldr	r6, [r0]
+  d4:	e0866003 	add	r6, r6, r3
+  d8:	e5960004 	ldr	r0, [r6, #4]
+  dc:	e5966000 	ldr	r6, [r6]
+  e0:	e1a06c26 	lsr	r6, r6, #24
+  e4:	e3700001 	cmn	r0, #1
+  e8:	03a00501 	moveq	r0, #4194304	; 0x400000
+  ec:	ea000006 	b	10c <__fixup_a_pv_table+0x40>
+  f0:	e797c003 	ldr	ip, [r7, r3]
+  f4:	e3ccc0ff 	bic	ip, ip, #255	; 0xff
+  f8:	e31c0c0f 	tst	ip, #3840	; 0xf00
+  fc:	118cc006 	orrne	ip, ip, r6
+ 100:	03ccc501 	biceq	ip, ip, #4194304	; 0x400000
+ 104:	018cc000 	orreq	ip, ip, r0
+ 108:	e787c003 	str	ip, [r7, r3]
+ 10c:	e1540005 	cmp	r4, r5
+ 110:	34947004 	ldrcc	r7, [r4], #4
+ 114:	3afffff5 	bcc	f0 <__fixup_a_pv_table+0x24>
+ 118:	e12fff1e 	bx	lr
+ 11c:	00000000 	.word	0x00000000
+
+00000120 <fixup_pv_table>:
+ 120:	e92d40f0 	push	{r4, r5, r6, r7, lr}
+ 124:	e3a03000 	mov	r3, #0
+ 128:	e1a04000 	mov	r4, r0
+ 12c:	e0805001 	add	r5, r0, r1
+ 130:	ebffffe5 	bl	cc <__fixup_a_pv_table>
+ 134:	e8bd80f0 	pop	{r4, r5, r6, r7, pc}
+
+00000138 <__lookup_processor_type>:
+ 138:	e28f3030 	add	r3, pc, #48	; 0x30
+ 13c:	e8930070 	ldm	r3, {r4, r5, r6}
+ 140:	e0433004 	sub	r3, r3, r4
+ 144:	e0855003 	add	r5, r5, r3
+ 148:	e0866003 	add	r6, r6, r3
+ 14c:	e8950018 	ldm	r5, {r3, r4}
+ 150:	e0044009 	and	r4, r4, r9
+ 154:	e1330004 	teq	r3, r4
+ 158:	0a000003 	beq	16c <__lookup_processor_type+0x34>
+ 15c:	e2855034 	add	r5, r5, #52	; 0x34
+ 160:	e1550006 	cmp	r5, r6
+ 164:	3afffff8 	bcc	14c <__lookup_processor_type+0x14>
+ 168:	e3a05000 	mov	r5, #0
+ 16c:	e12fff1e 	bx	lr
+
+00000170 <__lookup_processor_type_data>:
+ 170:	00000170 00000000 00000000              p...........
+
+0000017c <__error_lpae>:
+ 17c:	eaffffff 	b	180 <__error>
+
+00000180 <__error>:
+ 180:	e1a00000 	nop			; (mov r0, r0)
+ 184:	eafffffd 	b	180 <__error>
+ 188:	e320f000 	nop	{0}
+ 18c:	e320f000 	nop	{0}
+ 190:	e320f000 	nop	{0}
+ 194:	e320f000 	nop	{0}
+ 198:	e320f000 	nop	{0}
+ 19c:	e320f000 	nop	{0}
+
+Disassembly of section .head.text:
+
+00000000 <stext>:
+   0:	ebfffffe 	bl	0 <__hyp_stub_install>
+   4:	e10f9000 	mrs	r9, CPSR
+   8:	e229901a 	eor	r9, r9, #26
+   c:	e319001f 	tst	r9, #31
+  10:	e3c9901f 	bic	r9, r9, #31
+  14:	e38990d3 	orr	r9, r9, #211	; 0xd3
+  18:	1a000004 	bne	30 <stext+0x30>
+  1c:	e3899c01 	orr	r9, r9, #256	; 0x100
+  20:	e28fe00c 	add	lr, pc, #12
+  24:	e16ff009 	msr	SPSR_fsxc, r9
+  28:	e12ef30e 	.word	0xe12ef30e
+  2c:	e160006e 	.word	0xe160006e
+  30:	e121f009 	msr	CPSR_c, r9
+  34:	ee109f10 	mrc	15, 0, r9, cr0, cr0, {0}
+  38:	ebfffffe 	bl	138 <__turn_mmu_on_loc>
+  3c:	e1b0a005 	movs	sl, r5
+  40:	0afffffe 	beq	180 <__fixup_smp+0x3c>
+  44:	e28f3038 	add	r3, pc, #56	; 0x38
+  48:	e8930110 	ldm	r3, {r4, r8}
+  4c:	e0434004 	sub	r4, r3, r4
+  50:	e0888004 	add	r8, r8, r4
+  54:	eb000072 	bl	224 <__vet_atags>
+  58:	eb000039 	bl	144 <__fixup_smp>
+  5c:	eb00005b 	bl	1d0 <__fixup_pv_table>
+  60:	eb000009 	bl	8c <__create_page_tables>
+  64:	e59fd014 	ldr	sp, [pc, #20]	; 80 <stext+0x80>
+  68:	e28fe00c 	add	lr, pc, #12
+  6c:	e1a08004 	mov	r8, r4
+  70:	e59ac010 	ldr	ip, [sl, #16]
+  74:	e08cc00a 	add	ip, ip, sl
+  78:	e1a0f00c 	mov	pc, ip
+  7c:	eafffffe 	b	8c <__create_page_tables>
+  80:	00000000 	.word	0x00000000
+  84:	00000084 	.word	0x00000084
+  88:	80000000 	.word	0x80000000
+
+0000008c <__create_page_tables>:
+  8c:	e2884902 	add	r4, r8, #32768	; 0x8000
+  90:	e2444901 	sub	r4, r4, #16384	; 0x4000
+  94:	e1a00004 	mov	r0, r4
+  98:	e3a03000 	mov	r3, #0
+  9c:	e2806901 	add	r6, r0, #16384	; 0x4000
+  a0:	e4803004 	str	r3, [r0], #4
+  a4:	e4803004 	str	r3, [r0], #4
+  a8:	e4803004 	str	r3, [r0], #4
+  ac:	e4803004 	str	r3, [r0], #4
+  b0:	e1300006 	teq	r0, r6
+  b4:	1afffff9 	bne	a0 <__create_page_tables+0x14>
+  b8:	e59a7008 	ldr	r7, [sl, #8]
+  bc:	e28f0074 	add	r0, pc, #116	; 0x74
+  c0:	e8900068 	ldm	r0, {r3, r5, r6}
+  c4:	e0400003 	sub	r0, r0, r3
+  c8:	e0855000 	add	r5, r5, r0
+  cc:	e0866000 	add	r6, r6, r0
+  d0:	e1a05a25 	lsr	r5, r5, #20
+  d4:	e1a06a26 	lsr	r6, r6, #20
+  d8:	e1873a05 	orr	r3, r7, r5, lsl #20
+  dc:	e7843105 	str	r3, [r4, r5, lsl #2]
+  e0:	e1550006 	cmp	r5, r6
+  e4:	32855001 	addcc	r5, r5, #1
+  e8:	3afffffa 	bcc	d8 <__create_page_tables+0x4c>
+  ec:	e2840a02 	add	r0, r4, #8192	; 0x2000
+  f0:	e59f603c 	ldr	r6, [pc, #60]	; 134 <__create_page_tables+0xa8>
+  f4:	e1883007 	orr	r3, r8, r7
+  f8:	e0846926 	add	r6, r4, r6, lsr #18
+  fc:	e4803004 	str	r3, [r0], #4
+ 100:	e2833601 	add	r3, r3, #1048576	; 0x100000
+ 104:	e1500006 	cmp	r0, r6
+ 108:	9afffffb 	bls	fc <__create_page_tables+0x70>
+ 10c:	e1a00a22 	lsr	r0, r2, #20
+ 110:	e1b00a00 	lsls	r0, r0, #20
+ 114:	10403008 	subne	r3, r0, r8
+ 118:	12833102 	addne	r3, r3, #-2147483648	; 0x80000000
+ 11c:	10843923 	addne	r3, r4, r3, lsr #18
+ 120:	11876000 	orrne	r6, r7, r0
+ 124:	14836004 	strne	r6, [r3], #4
+ 128:	12866601 	addne	r6, r6, #1048576	; 0x100000
+ 12c:	15836000 	strne	r6, [r3]
+ 130:	e12fff1e 	bx	lr
+ 134:	ffffffff 	.word	0xffffffff
+
+00000138 <__turn_mmu_on_loc>:
+ 138:	00000138 	.word	0x00000138
+ 13c:	00000000 	.word	0x00000000
+ 140:	00000020 	.word	0x00000020
+
+00000144 <__fixup_smp>:
+ 144:	e209380f 	and	r3, r9, #983040	; 0xf0000
+ 148:	e333080f 	teq	r3, #983040	; 0xf0000
+ 14c:	1a000016 	bne	1ac <__fixup_smp_on_up>
+ 150:	e3c938ff 	bic	r3, r9, #16711680	; 0xff0000
+ 154:	e3c3300f 	bic	r3, r3, #15
+ 158:	e3a04441 	mov	r4, #1090519040	; 0x41000000
+ 15c:	e3844a0b 	orr	r4, r4, #45056	; 0xb000
+ 160:	e3844020 	orr	r4, r4, #32
+ 164:	e1330004 	teq	r3, r4
+ 168:	012fff1e 	bxeq	lr
+ 16c:	ee100fb0 	mrc	15, 0, r0, cr0, cr0, {5}
+ 170:	e2000103 	and	r0, r0, #-1073741824	; 0xc0000000
+ 174:	e3300102 	teq	r0, #-2147483648	; 0x80000000
+ 178:	1a00000b 	bne	1ac <__fixup_smp_on_up>
+ 17c:	e3a04441 	mov	r4, #1090519040	; 0x41000000
+ 180:	e3844903 	orr	r4, r4, #49152	; 0xc000
+ 184:	e3844090 	orr	r4, r4, #144	; 0x90
+ 188:	e1330004 	teq	r3, r4
+ 18c:	112fff1e 	bxne	lr
+ 190:	ee9f0f10 	mrc	15, 4, r0, cr15, cr0, {0}
+ 194:	e3300000 	teq	r0, #0
+ 198:	0a000003 	beq	1ac <__fixup_smp_on_up>
+ 19c:	e5900004 	ldr	r0, [r0, #4]
+ 1a0:	e2000003 	and	r0, r0, #3
+ 1a4:	e3300000 	teq	r0, #0
+ 1a8:	112fff1e 	bxne	lr
+
+000001ac <__fixup_smp_on_up>:
+ 1ac:	e28f0010 	add	r0, pc, #16
+ 1b0:	e8900038 	ldm	r0, {r3, r4, r5}
+ 1b4:	e0403003 	sub	r3, r0, r3
+ 1b8:	e0844003 	add	r4, r4, r3
+ 1bc:	e0855003 	add	r5, r5, r3
+ 1c0:	eafffffe 	b	a0 <__create_page_tables+0x14>
+ 1c4:	000001c4 	.word	0x000001c4
+	...
+
+000001d0 <__fixup_pv_table>:
+ 1d0:	e28f0038 	add	r0, pc, #56	; 0x38
+ 1d4:	e89000f8 	ldm	r0, {r3, r4, r5, r6, r7}
+ 1d8:	e3e0c000 	mvn	ip, #0
+ 1dc:	e0503003 	subs	r3, r0, r3
+ 1e0:	e0844003 	add	r4, r4, r3
+ 1e4:	e0855003 	add	r5, r5, r3
+ 1e8:	e0866003 	add	r6, r6, r3
+ 1ec:	e0877003 	add	r7, r7, r3
+ 1f0:	e1a00628 	lsr	r0, r8, #12
+ 1f4:	e5860000 	str	r0, [r6]
+ 1f8:	3587c004 	strcc	ip, [r7, #4]
+ 1fc:	e1a06c23 	lsr	r6, r3, #24
+ 200:	e1330c06 	teq	r3, r6, lsl #24
+ 204:	1afffffe 	bne	180 <__fixup_smp+0x3c>
+ 208:	e5873000 	str	r3, [r7]
+ 20c:	eafffffe 	b	cc <__create_page_tables+0x40>
+ 210:	00000210 	.word	0x00000210
+	...
+
+00000224 <__vet_atags>:
+ 224:	e3120003 	tst	r2, #3
+ 228:	1a00000b 	bne	25c <__vet_atags+0x38>
+ 22c:	e5925000 	ldr	r5, [r2]
+ 230:	e59f602c 	ldr	r6, [pc, #44]	; 264 <__vet_atags+0x40>
+ 234:	e1550006 	cmp	r5, r6
+ 238:	0a000006 	beq	258 <__vet_atags+0x34>
+ 23c:	e3550005 	cmp	r5, #5
+ 240:	13550002 	cmpne	r5, #2
+ 244:	1a000004 	bne	25c <__vet_atags+0x38>
+ 248:	e5925004 	ldr	r5, [r2, #4]
+ 24c:	e59f6014 	ldr	r6, [pc, #20]	; 268 <__vet_atags+0x44>
+ 250:	e1550006 	cmp	r5, r6
+ 254:	1a000000 	bne	25c <__vet_atags+0x38>
+ 258:	e12fff1e 	bx	lr
+ 25c:	e3a02000 	mov	r2, #0
+ 260:	e12fff1e 	bx	lr
+ 264:	edfe0dd0 	.word	0xedfe0dd0
+ 268:	54410001 	.word	0x54410001
+
+Disassembly of section .idmap.text:
+
+00000000 <__turn_mmu_on>:
+   0:	e1a00000 	nop			; (mov r0, r0)
+   4:	f57ff06f 	isb	sy
+   8:	ee010f10 	mcr	15, 0, r0, cr1, cr0, {0}
+   c:	ee103f10 	mrc	15, 0, r3, cr0, cr0, {0}
+  10:	f57ff06f 	isb	sy
+  14:	e1a03003 	mov	r3, r3
+  18:	e1a0300d 	mov	r3, sp
+  1c:	e1a0f003 	mov	pc, r3
+
+Disassembly of section .init.text:
+
+00000000 <__mmap_switched>:
+   0:	e28f3040 	add	r3, pc, #64	; 0x40
+   4:	e8b300f0 	ldm	r3!, {r4, r5, r6, r7}
+   8:	e1540005 	cmp	r4, r5
+   c:	11550006 	cmpne	r5, r6
+  10:	1494b004 	ldrne	fp, [r4], #4
+  14:	1485b004 	strne	fp, [r5], #4
+  18:	1afffffb 	bne	c <__mmap_switched+0xc>
+  1c:	e3a0b000 	mov	fp, #0
+  20:	e1560007 	cmp	r6, r7
+  24:	3486b004 	strcc	fp, [r6], #4
+  28:	3afffffc 	bcc	20 <__mmap_switched+0x20>
+  2c:	e89320f0 	ldm	r3, {r4, r5, r6, r7, sp}
+  30:	e5849000 	str	r9, [r4]
+  34:	e5851000 	str	r1, [r5]
+  38:	e5862000 	str	r2, [r6]
+  3c:	e3570000 	cmp	r7, #0
+  40:	15870000 	strne	r0, [r7]
+  44:	eafffffe 	b	0 <start_kernel>
+
+00000048 <__mmap_switched_data>:
+	...
+  68:	00001ff8                                ....
+
+0000006c <lookup_processor_type>:
+  6c:	e92d4270 	push	{r4, r5, r6, r9, lr}
+  70:	e1a09000 	mov	r9, r0
+  74:	ebfffffe 	bl	138 <__lookup_processor_type>
+  78:	e1a00005 	mov	r0, r5
+  7c:	e8bd8270 	pop	{r4, r5, r6, r9, pc}
