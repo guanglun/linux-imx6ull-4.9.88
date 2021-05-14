@@ -1507,6 +1507,16 @@ fec_enet_rx_queue(struct net_device *ndev, int budget, u16 queue_id)
 		skb_put(skb, pkt_len - 4);
 		data = skb->data;
 
+		if(skb != NULL)
+        {
+			printk(KERN_INFO"[zsp] fec_enet_rx_queue 1 %d %d\n",skb->len,skb->mac_len);
+
+            print_hex_dump(KERN_ALERT, "data: ", DUMP_PREFIX_ADDRESS,
+                                16, 1, skb->data, skb->len, 1);
+        }
+		else
+			printk(KERN_INFO"[zsp] fec_enet_rx_queue 1 NULL \n");
+
 		if (!is_copybreak && need_swap)
 			swap_buffer(data, pkt_len);
 
@@ -1559,15 +1569,17 @@ fec_enet_rx_queue(struct net_device *ndev, int budget, u16 queue_id)
 					       htons(ETH_P_8021Q),
 					       vlan_tag);
 
-		// if(skb != NULL)
-		// 	printk(KERN_INFO"[zsp] fec_enet_rx_queue 1 %d \n",skb->data_len);
-		// else
-		// 	printk(KERN_INFO"[zsp] fec_enet_rx_queue 1 NULL \n");
+
 
 		napi_gro_receive(&fep->napi, skb);
 
 		// if(skb != NULL)
-		// 	printk(KERN_INFO"[zsp] fec_enet_rx_queue 2 %d \n",skb->data_len);
+        // {
+		// 	printk(KERN_INFO"[zsp] fec_enet_rx_queue 2 %d %d\n",skb->len,skb->mac_len);
+
+        //     print_hex_dump(KERN_ALERT, "data: ", DUMP_PREFIX_ADDRESS,
+        //                         16, 1, skb->data, skb->len, 1);
+        // }
 		// else
 		// 	printk(KERN_INFO"[zsp] fec_enet_rx_queue 2 NULL \n");
 

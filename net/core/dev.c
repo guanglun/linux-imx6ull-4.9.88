@@ -4344,11 +4344,6 @@ static int netif_receive_skb_internal(struct sk_buff *skb)
  */
 int netif_receive_skb(struct sk_buff *skb)
 {
-	if(skb != NULL)
-			printk(KERN_INFO"[zsp] netif_receive_skb %d \n",skb->data_len);
-		else
-			printk(KERN_INFO"[zsp] netif_receive_skb NULL \n");
-
 	trace_netif_receive_skb_entry(skb);
 
 	return netif_receive_skb_internal(skb);
