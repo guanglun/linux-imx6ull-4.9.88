@@ -1437,7 +1437,7 @@ fec_enet_rx_queue(struct net_device *ndev, int budget, u16 queue_id)
 #endif
 	queue_id = FEC_ENET_GET_QUQUE(queue_id);
 	rxq = fep->rx_queue[queue_id];
-
+	//printk(KERN_INFO"[zsp] fec_enet_rx_queue\n");
 	/* First, grab all of the stats for the incoming packet.
 	 * These get messed up if we get called due to a busy condition.
 	 */
@@ -1570,7 +1570,10 @@ fec_enet_rx_queue(struct net_device *ndev, int budget, u16 queue_id)
 			rxq->rx_skbuff[index] = skb_new;
 			fec_enet_new_rxbdp(ndev, bdp, skb_new);
 		}
-
+	printk(KERN_INFO"[zsp] fec_enet_rx_queue %d \r\n",skb_new->data_len);
+	print_hex_dump(KERN_INFO, "\t",
+			   0, 16, 1,
+			   skb_new->data, skb_new->data_len, false);
 rx_processing_done:
 		/* Clear the status flags for this buffer */
 		status &= ~BD_ENET_RX_STATS;
@@ -1660,6 +1663,8 @@ fec_enet_interrupt(int irq, void *dev_id)
 	writel(int_events, fep->hwp + FEC_IEVENT);
 	fec_enet_collect_events(fep, int_events);
 
+	//printk(KERN_INFO"[zsp] fec_enet_interrupt\n");
+
 	if ((fep->work_tx || fep->work_rx) && fep->link) {
 		ret = IRQ_HANDLED;
 
@@ -1687,6 +1692,7 @@ static int fec_enet_rx_napi(struct napi_struct *napi, int budget)
 	struct fec_enet_private *fep = netdev_priv(ndev);
 	int pkts;
 
+	//printk(KERN_INFO"[zsp] fec_enet_rx_napi\n");
 	pkts = fec_enet_rx(ndev, budget);
 
 	fec_enet_tx(ndev);
@@ -3597,6 +3603,8 @@ fec_probe(struct platform_device *pdev)
 	int num_tx_qs;
 	int num_rx_qs;
 
+	//printk(KERN_INFO"[zsp] of_dma_configure\n");
+	
 	of_dma_configure(&pdev->dev, np);
 
 	fec_enet_get_queue_num(pdev, &num_tx_qs, &num_rx_qs);
