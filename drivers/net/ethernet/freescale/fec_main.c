@@ -1559,7 +1559,17 @@ fec_enet_rx_queue(struct net_device *ndev, int budget, u16 queue_id)
 					       htons(ETH_P_8021Q),
 					       vlan_tag);
 
+		// if(skb != NULL)
+		// 	printk(KERN_INFO"[zsp] fec_enet_rx_queue 1 %d \n",skb->data_len);
+		// else
+		// 	printk(KERN_INFO"[zsp] fec_enet_rx_queue 1 NULL \n");
+
 		napi_gro_receive(&fep->napi, skb);
+
+		// if(skb != NULL)
+		// 	printk(KERN_INFO"[zsp] fec_enet_rx_queue 2 %d \n",skb->data_len);
+		// else
+		// 	printk(KERN_INFO"[zsp] fec_enet_rx_queue 2 NULL \n");
 
 		if (is_copybreak) {
 			dma_sync_single_for_device(&fep->pdev->dev,
@@ -1570,10 +1580,14 @@ fec_enet_rx_queue(struct net_device *ndev, int budget, u16 queue_id)
 			rxq->rx_skbuff[index] = skb_new;
 			fec_enet_new_rxbdp(ndev, bdp, skb_new);
 		}
-	printk(KERN_INFO"[zsp] fec_enet_rx_queue %d \r\n",skb_new->data_len);
-	print_hex_dump(KERN_INFO, "\t",
-			   0, 16, 1,
-			   skb_new->data, skb_new->data_len, false);
+
+
+
+
+
+	// print_hex_dump(KERN_INFO, "\t",
+	// 		   0, 16, 1,
+	// 		   skb_new->data, skb_new->data_len, false);
 rx_processing_done:
 		/* Clear the status flags for this buffer */
 		status &= ~BD_ENET_RX_STATS;
