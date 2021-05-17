@@ -908,6 +908,7 @@ static int arp_rcv(struct sk_buff *skb, struct net_device *dev,
 {
 	const struct arphdr *arp;
 
+	printk(KERN_INFO"[zsp] arp_rcv %d\n",skb->len);
 	/* do not tweak dropwatch on an ARP we will ignore */
 	if (dev->flags & IFF_NOARP ||
 	    skb->pkt_type == PACKET_OTHERHOST ||

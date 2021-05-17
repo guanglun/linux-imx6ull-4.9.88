@@ -2030,6 +2030,8 @@ static int packet_rcv(struct sk_buff *skb, struct net_device *dev,
 	unsigned int snaplen, res;
 	bool is_drop_n_account = false;
 
+	printk(KERN_INFO"[zsp] packet_rcv %d\n",skb->len);
+
 	if (skb->pkt_type == PACKET_LOOPBACK)
 		goto drop;
 

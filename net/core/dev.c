@@ -1832,6 +1832,7 @@ static inline int deliver_skb(struct sk_buff *skb,
 	if (unlikely(skb_orphan_frags(skb, GFP_ATOMIC)))
 		return -ENOMEM;
 	atomic_inc(&skb->users);
+	printk(KERN_INFO"[zsp] deliver_skb %08x\n",pt_prev->func);
 	return pt_prev->func(skb, skb->dev, pt_prev, orig_dev);
 }
 
@@ -1847,7 +1848,11 @@ static inline void deliver_ptype_list_skb(struct sk_buff *skb,
 		if (ptype->type != type)
 			continue;
 		if (pt_prev)
+		{
+			printk(KERN_INFO"[zsp] deliver_ptype_list_skb %08x\n",pt_prev->func);
 			deliver_skb(skb, pt_prev, orig_dev);
+		}
+			
 		pt_prev = ptype;
 	}
 	*pt = pt_prev;
@@ -4163,15 +4168,23 @@ another_round:
 	if (pfmemalloc)
 		goto skip_taps;
 
+	//printk(KERN_INFO"[zsp] skb->dev->ptype_all %d\t%d\n",skb->len,skb->data_len);
+
 	list_for_each_entry_rcu(ptype, &ptype_all, list) {
 		if (pt_prev)
+		{
+			printk(KERN_INFO"[zsp] ptype_all %08x\n",pt_prev->func);
 			ret = deliver_skb(skb, pt_prev, orig_dev);
+		}
 		pt_prev = ptype;
 	}
 
 	list_for_each_entry_rcu(ptype, &skb->dev->ptype_all, list) {
 		if (pt_prev)
+		{
+			printk(KERN_INFO"[zsp] skb->dev->ptype_all %08x\n",pt_prev->func);
 			ret = deliver_skb(skb, pt_prev, orig_dev);
+		}
 		pt_prev = ptype;
 	}
 
@@ -4195,6 +4208,7 @@ ncls:
 
 	if (skb_vlan_tag_present(skb)) {
 		if (pt_prev) {
+			printk(KERN_INFO"[zsp] skb_vlan_tag_present %08x\n",pt_prev->func);
 			ret = deliver_skb(skb, pt_prev, orig_dev);
 			pt_prev = NULL;
 		}
@@ -4207,6 +4221,7 @@ ncls:
 	rx_handler = rcu_dereference(skb->dev->rx_handler);
 	if (rx_handler) {
 		if (pt_prev) {
+			printk(KERN_INFO"[zsp] rcu_dereference %08x\n",pt_prev->func);
 			ret = deliver_skb(skb, pt_prev, orig_dev);
 			pt_prev = NULL;
 		}
@@ -4256,7 +4271,11 @@ ncls:
 		if (unlikely(skb_orphan_frags(skb, GFP_ATOMIC)))
 			goto drop;
 		else
+		{
+			printk(KERN_INFO"[zsp] ===>>> %08x\n",pt_prev->func);
 			ret = pt_prev->func(skb, skb->dev, pt_prev, orig_dev);
+		}
+			
 	} else {
 drop:
 		if (!deliver_exact)
