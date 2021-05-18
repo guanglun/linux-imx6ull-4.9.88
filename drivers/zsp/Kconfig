@@ -1,0 +1,3 @@
+config ZSP
+    bool "Add zsp driver"
+    default y
