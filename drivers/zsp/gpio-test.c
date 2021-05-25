@@ -41,21 +41,39 @@ int gpio_test1;
 int gpio_test2;			   
 int gpio_test3;	
 
+unsigned int __iomem *va_dr;
+
+static gpio3_write(unsigned char pin,char w)
+{
+	unsigned long val = 0;
+	val = ioread32(va_dr);
+	if (w == 0)
+		val &= ~(0x01 << pin);
+	else
+		val |= (0x01 << pin);
+
+	iowrite32(val, va_dr);
+}
+
+
 void zsp_gpio_test1_write(char w)
 {
-	gpio_direction_output(gpio_test1, w);    
+	gpio3_write(28, w); 
+	//gpio_set_value(gpio_test1, w);    
 }
 EXPORT_SYMBOL_GPL(zsp_gpio_test1_write);
 
 void zsp_gpio_test2_write(char w)
 {
-	gpio_direction_output(gpio_test2, w);    
+	gpio3_write(27, w); 
+	//gpio_set_value(gpio_test2, w);    
 }
 EXPORT_SYMBOL_GPL(zsp_gpio_test2_write);
 
 void zsp_gpio_test3_write(char w)
 {
-	gpio_direction_output(gpio_test3, w);    
+	gpio3_write(26, w); 
+	//gpio_set_value(gpio_test3, w);    
 }
 EXPORT_SYMBOL_GPL(zsp_gpio_test3_write);
 
@@ -175,6 +193,8 @@ static int gpio_test_probe(struct platform_device *pdv)
 	/*创建设备*/
 	device = device_create(class_gpio_test, NULL, gpio_test_devno, NULL, DEV_NAME);
 
+
+	va_dr = ioremap(0x20A4000, 4);
 	return 0;
 
 add_err:
